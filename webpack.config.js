@@ -6,23 +6,28 @@ const {
     NODE_ENV = 'production',
 } = process.env;
 
-module.expotrs = {
-    entry: './bin/www',
-    mode: NODE_ENV,
-    target: 'node',
-    output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'app.js'
-    },
-    externals: [nodeExternals()],
+module.exports = [
+    {
+        entry: './bin/www',
+        mode: NODE_ENV,
+        target: 'node',
+        output: {
+            path: path.resolve(__dirname, 'build'),
+            filename: 'app.js',
+        },
+        resolve: {
+            extensions: ['.js', '.twig',],
+        },
+        externals: [nodeExternals()],
+        plugins: [
+            new WebpackShellPlugin({
+                onBuildEnd: {
+                    scripts: ['npm run start:dev'],
+                    blocking: false,
+                    parallel: true,
+                },
+            }),
 
-    plugins: [
-        new WebpackShellPlugin({
-            onBuildEnd: {
-                scripts: ['npm run start:dev'],
-                blocking: false,
-                parallel: true,
-            }
-        }),
-    ]
-}
+        ],
+    }
+]

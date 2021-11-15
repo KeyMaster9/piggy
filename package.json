@@ -1,11 +1,11 @@
 {
-  "name": "finance-management",
+  "name": "piggy",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "build": "webpack --config webpack.config.js",
-    "watch": "nodemon app.js" 
+    "build": "NODE_ENV=development webpack --watch --config webpack.config.js",
+    "start:dev": "NODE_ENV=development nodemon -w views -w sass -w build build/app.js",
+    "start:prod": "NODE_ENV=production node build/app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -16,7 +16,9 @@
     "node-sass-middleware": "0.11.0",
     "sequelize": "^5.10.1",
     "sqlite3": "^5.0.2",
-    "twig": "~0.10.3"
+    "twig": "~0.10.3",
+    "webpack-node-externals": "^3.0.0",
+    "webpack-shell-plugin-next": "^2.2.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15",

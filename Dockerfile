@@ -2,10 +2,7 @@ FROM node:14-alpine
 
 WORKDIR /usr/src/app
 
-COPY package.json package.json
+COPY docker/watch /usr/bin/watch
+RUN chmod +x /usr/bin/watch
 
-RUN npm install
-
-COPY app.js app.js
-
-RUN npm start
+CMD ["/usr/bin/watch"]

@@ -14,13 +14,13 @@ router.get('/register', function(req, res) {
 
 //POST register page
 router.post('/register', function(req, res) {
-  if (registration === "Successful") {
-    res.render('registerSuccess', { title: 'Registration Success'});
-  } else if (registration === "Failed") {
-    res.render('registerFail', { title: 'Registration Fail'});
-  } else {
-    res.render('reigsterError', { title: 'Error'});
-  };
+  // if (registration === "Successful") {
+  //   res.render('registerSuccess', { title: 'Registration Success'});
+  // } else if (registration === "Failed") {
+  //   res.render('registerFail', { title: 'Registration Fail'});
+  // } else {
+  //   res.render('reigsterError', { title: 'Error'});
+  // };
 })
 
 //GET login page
