@@ -5,7 +5,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
-
 const {
     NODE_ENV = 'production',
 } = process.env;
@@ -56,11 +55,11 @@ module.exports = [
             new MiniCssExtractPlugin({
                 filename: 'css/screen.css',
             }),
-            // new CopyPlugin({
-            //     patterns: [
-            //         { from: "src/client/images", to: "images" },
-            //     ],
-            // }),
+            new CopyPlugin({
+                patterns: [
+                    { from: "src/client/images", to: "images" },
+                ],
+            }),
         ],
         module: {
             rules: [
