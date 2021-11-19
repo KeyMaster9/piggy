@@ -25,17 +25,48 @@ eval("//#!/usr/bin/env node\n\n/**\n * Module dependencies.\n */\n\nvar app = __
   \******************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("var createError = __webpack_require__(/*! http-errors */ \"http-errors\");\nvar express = __webpack_require__(/*! express */ \"express\");\nvar path = __webpack_require__(/*! path */ \"path\");\nvar cookieParser = __webpack_require__(/*! cookie-parser */ \"cookie-parser\");\nvar logger = __webpack_require__(/*! morgan */ \"morgan\");\nvar sassMiddleware = __webpack_require__(/*! node-sass-middleware */ \"node-sass-middleware\");\n\nvar indexRouter = __webpack_require__(Object(function webpackMissingModule() { var e = new Error(\"Cannot find module '../../../routes/index'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));\nvar usersRouter = __webpack_require__(/*! ./routes/users */ \"./src/server/js/routes/users.js\");\n\nvar app = express();\n\n// view engine setup\napp.set('views', path.join(__dirname, '/../views'));\napp.set('view engine', 'twig');\n\napp.use(logger('dev'));\napp.use(express.json());\napp.use(express.urlencoded({ extended: false }));\napp.use(cookieParser());\napp.use(sassMiddleware({\n  src: path.join(__dirname, 'public'),\n  dest: path.join(__dirname, 'public'),\n  indentedSyntax: true, // true = .sass and false = .scss\n  sourceMap: true\n}));\napp.use(express.static(path.join(__dirname, 'public')));\n\napp.use('/', indexRouter);\napp.use('/users', usersRouter);\n\n// allows all twig files to access public directory\napp.use(express.static('/public'));\n\n// catch 404 and forward to error handler\napp.use(function(req, res, next) {\n  next(createError(404));\n});\n\n// error handler\napp.use(function(err, req, res, next) {\n  // set locals, only providing error in development\n  res.locals.message = err.message;\n  res.locals.error = req.app.get('env') === 'development' ? err : {};\n\n  // render the error page\n  res.status(err.status || 500);\n  res.render('error');\n});\n\nmodule.exports = app;\n\n//# sourceURL=webpack://piggy/./src/server/js/app.js?");
+eval("var createError = __webpack_require__(/*! http-errors */ \"http-errors\");\nvar express = __webpack_require__(/*! express */ \"express\");\nvar path = __webpack_require__(/*! path */ \"path\");\nvar cookieParser = __webpack_require__(/*! cookie-parser */ \"cookie-parser\");\nvar logger = __webpack_require__(/*! morgan */ \"morgan\");\nvar bodyParser = __webpack_require__(/*! body-parser */ \"body-parser\");\n\n// //sets up body parser\n// app.use(bodyParser.json());       // to support JSON-encoded bodies\n// app.use(bodyParser.urlencoded({     // to support URL-encoded bodies\n//   extended: true\n// }));\n\n//defines routes\nconst routes = __webpack_require__(/*! ./routes.js */ \"./src/server/js/routes.js\");\n\nvar app = express();\n\n// view engine setup\napp.set('views', path.join(__dirname, 'views'));\napp.set('view engine', 'twig');\n\n \napp.use(logger('dev'));\napp.use(express.json());\napp.use(express.urlencoded({ extended: false }));\napp.use(cookieParser());\n\n//gives access to the public folder\napp.use('/assets', express.static(path.join(__dirname, '/../client')));\n\n//accesses routes\napp.use('/', routes);\n\n// catch 404 and forward to error handler\napp.use(function (req, res, next) {\n  next(createError(404));\n});\n\n// error handler\napp.use(function (err, req, res, next) {\n  // set locals, only providing error in development\n  res.locals.message = err.message;\n  res.locals.error = req.app.get('env') === 'development' ? err : {};\n \n  // render the error page\n  res.status(err.status || 500);\n  res.render('error');\n});\n        \n\nmodule.exports = app;\n\n//# sourceURL=webpack://piggy/./src/server/js/app.js?");
 
 /***/ }),
 
-/***/ "./src/server/js/routes/users.js":
-/*!***************************************!*\
-  !*** ./src/server/js/routes/users.js ***!
-  \***************************************/
+/***/ "./src/server/js/routes.js":
+/*!*********************************!*\
+  !*** ./src/server/js/routes.js ***!
+  \*********************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("var express = __webpack_require__(/*! express */ \"express\");\nvar router = express.Router();\n\n/* GET users listing. */\nrouter.get('/', function(req, res, next) {\n  res.send('respond with a resource');\n});\n\nmodule.exports = router;\n\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/users.js?");
+eval("var express = __webpack_require__(/*! express */ \"express\");\nvar router = express.Router();\n\nrouter.use('/', __webpack_require__(/*! ./routes/html */ \"./src/server/js/routes/html.js\"));\nrouter.use('/api', __webpack_require__(/*! ./routes/api */ \"./src/server/js/routes/api.js\"));\n\nmodule.exports = router;\n\n//# sourceURL=webpack://piggy/./src/server/js/routes.js?");
+
+/***/ }),
+
+/***/ "./src/server/js/routes/api.js":
+/*!*************************************!*\
+  !*** ./src/server/js/routes/api.js ***!
+  \*************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("var express = __webpack_require__(/*! express */ \"express\");\nvar router = express.Router();\n\n\nmodule.exports = router;\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/api.js?");
+
+/***/ }),
+
+/***/ "./src/server/js/routes/html.js":
+/*!**************************************!*\
+  !*** ./src/server/js/routes/html.js ***!
+  \**************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("var express = __webpack_require__(/*! express */ \"express\");\nconst { removeAllListeners } = __webpack_require__(/*! nodemon */ \"nodemon\");\nvar router = express.Router();\n\n/* GET home page. */\nrouter.get('/', function(req, res, next) {\n  res.render('index', { title: 'Piggy' });\n});\n\n//GET register page\nrouter.get('/register', function(req, res) {\n  res.render('register', { title: 'Register'});\n});\n\n//POST register page\nrouter.post('/register', function(req, res) {\n  // if (registration === \"Successful\") {\n  //   res.render('registerSuccess', { title: 'Registration Success'});\n  // } else if (registration === \"Failed\") {\n  //   res.render('registerFail', { title: 'Registration Fail'});\n  // } else {\n  //   res.render('reigsterError', { title: 'Error'});\n  // };\n})\n\n//GET login page\nrouter.get('/login', function(req, res) {\n  res.render('login', { title: 'Login'});\n});\n\n\n\nmodule.exports = router;\n\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/html.js?");
+
+/***/ }),
+
+/***/ "body-parser":
+/*!******************************!*\
+  !*** external "body-parser" ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("body-parser");
 
 /***/ }),
 
@@ -94,14 +125,14 @@ module.exports = require("morgan");
 
 /***/ }),
 
-/***/ "node-sass-middleware":
-/*!***************************************!*\
-  !*** external "node-sass-middleware" ***!
-  \***************************************/
+/***/ "nodemon":
+/*!**************************!*\
+  !*** external "nodemon" ***!
+  \**************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("node-sass-middleware");
+module.exports = require("nodemon");
 
 /***/ }),
 

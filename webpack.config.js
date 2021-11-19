@@ -56,11 +56,11 @@ module.exports = [
             new MiniCssExtractPlugin({
                 filename: 'css/screen.css',
             }),
-            new CopyPlugin({
-                patterns: [
-                    { from: "src/client/images", to: "images" },
-                ],
-            }),
+            // new CopyPlugin({
+            //     patterns: [
+            //         { from: "src/client/images", to: "images" },
+            //     ],
+            // }),
         ],
         module: {
             rules: [
