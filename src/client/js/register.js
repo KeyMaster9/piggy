@@ -7,24 +7,20 @@ const $passwordConfirm = $('#password-confirm');
 
 function clientPasswordValidation() {
 
-    console.log
-    if ($password.val() >= 8) {
-        if ($password.val() === $passwordConfirm.val()) {
-            $('#register').removeAttr('disabled');
-            console.log('password matches')
-        } else {
-            $('#register').attr('disabled', '1')
-            console.log('password does not match');
-        }
+    var p1 = $password.val();
+    var p2 = $passwordConfirm.val()
+    if (p1 === p2) {
+        $('#register').removeAttr('disabled');
+        console.log('password matches')
     } else {
         $('#register').attr('disabled', '1')
         console.log('password does not match');
-    }
+    };
 }
-const $register = $('#register')
-$(() => {
-    if ($register.length > 0) {
-        $('#password-confirm').on('input', clientPasswordValidation());
-        $('#password').on('input', clientPasswordValidation());
-    }
-})
+
+
+$('input').on('keyup', () => {
+    console.log($('#password').val())
+    console.log($passwordConfirm.val());
+    clientPasswordValidation()
+});

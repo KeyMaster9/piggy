@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.3"
 services:
   piggy:
     build: .
@@ -6,3 +6,4 @@ services:
       - "3000:3000"
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
