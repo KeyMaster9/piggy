@@ -20,7 +20,7 @@ function isSurnamePresent() {
 }
 function isUserNamePresent() {
     var truthly = false;
-    const $userName = $('#username');
+    const $userName = $('#userName');
     if ($userName.val().length >= 6) {
         truthly = true;
     }

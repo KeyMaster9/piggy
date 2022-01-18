@@ -1,5 +1,3 @@
-
-
-module.exports = function (req, res, next) {
-    res.send('Hello')
+module.exports = (req, res, next) => {
+    res.send('HELLO')
 }

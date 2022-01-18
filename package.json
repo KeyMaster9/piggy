@@ -1,6 +1,6 @@
 {
   "name": "piggy",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "NODE_ENV=development webpack --watch --config webpack.config.js",
