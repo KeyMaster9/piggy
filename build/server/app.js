@@ -29,6 +29,26 @@ eval("var createError = __webpack_require__(/*! http-errors */ \"http-errors\");
 
 /***/ }),
 
+/***/ "./src/server/js/middleware/sanitisation/user/register.js":
+/*!****************************************************************!*\
+  !*** ./src/server/js/middleware/sanitisation/user/register.js ***!
+  \****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("const { body, validationResult } = __webpack_require__(/*! express-validator */ \"express-validator\");\n\nmodule.exports = (req, res, next) => {\n    // forename surname email userName password\n    console.log(req.body.forename);\n    body('forename').trim();\n    body('surname').trim();\n    body('userName').trim();\n    body('email').normalizeEmail();\n    body('password').rtrim();\n    next();\n}\n\n//# sourceURL=webpack://piggy/./src/server/js/middleware/sanitisation/user/register.js?");
+
+/***/ }),
+
+/***/ "./src/server/js/middleware/validation/user/register.js":
+/*!**************************************************************!*\
+  !*** ./src/server/js/middleware/validation/user/register.js ***!
+  \**************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("const { body, validationResult } = __webpack_require__(/*! express-validator */ \"express-validator\");\n\nmodule.exports = (req, res, next) => {\n    // forename surname email userName password\n    console.log(req.body.forename);\n    body('forename').isLength({ min: 1, max: 40 }).isAlpha();;\n    body('surname').isLength({ min: 1, max: 80 }).isAlpha();\n    body('email').isEmail();\n    body('userName').isLength({ min: 6, max: 25 });\n    body('password').isStrongPassword({ minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, returnScore: false, pointsPerUnique: 1, pointsPerRepeat: 0.5, pointsForContainingLower: 10, pointsForContainingUpper: 10, pointsForContainingNumber: 10, pointsForContainingSymbol: 10 });\n\n    const errors = validationResult(req);\n    if (!errors.isEmpty()) {\n        return res.status(400).json({ errors: errors.array() });\n    } else {\n        next();\n    }\n    \n}\n\n//# sourceURL=webpack://piggy/./src/server/js/middleware/validation/user/register.js?");
+
+/***/ }),
+
 /***/ "./src/server/js/routes.js":
 /*!*********************************!*\
   !*** ./src/server/js/routes.js ***!
@@ -45,7 +65,27 @@ eval("var express = __webpack_require__(/*! express */ \"express\");\nvar router
   \*************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("var express = __webpack_require__(/*! express */ \"express\");\nvar router = express.Router();\n\n\nmodule.exports = router;\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/api.js?");
+eval("var express = __webpack_require__(/*! express */ \"express\");\nconst emailValidation = __webpack_require__(/*! ./api/register/emailValidationHandler */ \"./src/server/js/routes/api/register/emailValidationHandler.js\");\nvar router = express.Router();\n\n\n// const passwordValidationHandler = require('./api/register/passwordValidationHandler');\n// const emailValidationHandler = require('./api/register/emailValidationHandler');\n// const foreNameValidationHandler = require('./api/register/foreNameValidationHandler');\n// const surnameValidationHandler = require('./api/register/surnameValidationHandler');\n// const userNameValidationHandler = require('./api/register/userNameValidationHandler');\n// const uniqueUserValidationHandler = require('./api/register/uniqueUserValidationHandler');\n\nconst sanitiseRegisterMiddleware = __webpack_require__(/*! ../middleware/validation/user/register */ \"./src/server/js/middleware/validation/user/register.js\");\nconst validationRegisterMiddleware = __webpack_require__(/*! ../middleware/sanitisation/user/register */ \"./src/server/js/middleware/sanitisation/user/register.js\");\nconst registerHandler = __webpack_require__(/*! ./api/register */ \"./src/server/js/routes/api/register.js\");\n\n\nrouter.post('/register', [\n    sanitiseRegisterMiddleware,\n    validationRegisterMiddleware,\n    registerHandler,\n]);\n\nmodule.exports = router;\n\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/api.js?");
+
+/***/ }),
+
+/***/ "./src/server/js/routes/api/register.js":
+/*!**********************************************!*\
+  !*** ./src/server/js/routes/api/register.js ***!
+  \**********************************************/
+/***/ ((module) => {
+
+eval("\n\nmodule.exports = function (req, res, next) {\n    res.send('Hello')\n}\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/api/register.js?");
+
+/***/ }),
+
+/***/ "./src/server/js/routes/api/register/emailValidationHandler.js":
+/*!*********************************************************************!*\
+  !*** ./src/server/js/routes/api/register/emailValidationHandler.js ***!
+  \*********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("const validator = __webpack_require__(/*! validator */ \"validator\");\n\nmodule.exports = (req, res, next) => {\n    const email = req.body.email;\n    if(validator.isEmail(email+'')) {\n        next();\n    } else {\n        next('Error!');\n    }\n}\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/api/register/emailValidationHandler.js?");
 
 /***/ }),
 
@@ -55,7 +95,7 @@ eval("var express = __webpack_require__(/*! express */ \"express\");\nvar router
   \**************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("var express = __webpack_require__(/*! express */ \"express\");\nconst { removeAllListeners } = __webpack_require__(/*! nodemon */ \"nodemon\");\nvar router = express.Router();\n\n/* GET home page. */\nrouter.get('/', function(req, res, next) {\n  res.render('index', { title: 'Piggy' });\n});\n\n//GET register page\nrouter.get('/register', function(req, res) {\n  res.render('register', { title: 'Register'});\n});\n\n//POST register page\nrouter.post('/register', function(req, res) {\n  // if (registration === \"Successful\") {\n  //   res.render('registerSuccess', { title: 'Registration Success'});\n  // } else if (registration === \"Failed\") {\n  //   res.render('registerFail', { title: 'Registration Fail'});\n  // } else {\n  //   res.render('reigsterError', { title: 'Error'});\n  // };\n})\n\n//GET login page\nrouter.get('/login', function(req, res) {\n  res.render('login', { title: 'Login'});\n});\n\n\n\nmodule.exports = router;\n\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/html.js?");
+eval("var express = __webpack_require__(/*! express */ \"express\");\nconst { removeAllListeners } = __webpack_require__(/*! nodemon */ \"nodemon\");\nvar router = express.Router();\n\n/* GET home page. */\nrouter.get('/', function(req, res, next) {\n  res.render('index', { title: 'Piggy' });\n});\n\n//GET register page\nrouter.get('/register', function(req, res) {\n  res.render('register', { title: 'Register'});\n});\n\n//POST register page\nrouter.post('/register', function(req, res) {\n  // if (registration === \"Successful\") {\n  //   res.render('registerSuccess', { title: 'Registration Success'});\n  // } else if (registration === \"Failed\") {\n  //   res.render('registerFail', { title: 'Registration Fail'});\n  // } else {\n  //   res.render('reigsterError', { title: 'Error'});\n  // };\n});\n\n//GET login page\nrouter.get('/login', function(req, res) {\n  res.render('login', { title: 'Login'});\n});\n\nmodule.exports = router;\n\n\n//# sourceURL=webpack://piggy/./src/server/js/routes/html.js?");
 
 /***/ }),
 
@@ -103,6 +143,17 @@ module.exports = require("express");
 
 /***/ }),
 
+/***/ "express-validator":
+/*!************************************!*\
+  !*** external "express-validator" ***!
+  \************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("express-validator");
+
+/***/ }),
+
 /***/ "http-errors":
 /*!******************************!*\
   !*** external "http-errors" ***!
@@ -133,6 +184,17 @@ module.exports = require("morgan");
 
 "use strict";
 module.exports = require("nodemon");
+
+/***/ }),
+
+/***/ "validator":
+/*!****************************!*\
+  !*** external "validator" ***!
+  \****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("validator");
 
 /***/ }),
 

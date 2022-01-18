@@ -21,13 +21,11 @@ router.post('/register', function(req, res) {
   // } else {
   //   res.render('reigsterError', { title: 'Error'});
   // };
-})
+});
 
 //GET login page
 router.get('/login', function(req, res) {
   res.render('login', { title: 'Login'});
 });
-
-
 
 module.exports = router;

@@ -1,30 +1,88 @@
 import $ from 'jquery';
+import axios from 'axios';
 
-console.log('register script loaded')
 
-const $password = $('#password');
-const $passwordConfirm = $('#password-confirm');
+function isForenamePresent() {
+    var truthly = false;
+    const $forename = $('#forename');
+    if ($forename.val().length >= 1) {
+        truthly = true;
+    }
+    return truthly;
+}
+function isSurnamePresent() {
+    var truthly = false;
+    const $surname = $('#surname');
+    if ($surname.val().length >= 1) {
+        truthly = true;
+    }
+    return truthly;
+}
+function isUserNamePresent() {
+    var truthly = false;
+    const $userName = $('#username');
+    if ($userName.val().length >= 6) {
+        truthly = true;
+    }
+    return truthly;
+}
 
-function clientPasswordValidation() {
-
-    console.log
-    if ($password.val() >= 8) {
-        if ($password.val() === $passwordConfirm.val()) {
-            $('#register').removeAttr('disabled');
-            console.log('password matches')
+function passwordValidation() {
+    const $pass = $('#password').val();
+    const $pass2 = $('#password-confirm').val();
+    var truthly = false;
+    if ($pass.length >= 8) {
+        if ($pass === $pass2) {
+            truthly = true;
         } else {
-            $('#register').attr('disabled', '1')
-            console.log('password does not match');
+            truthly = false;
         }
     } else {
-        $('#register').attr('disabled', '1')
-        console.log('password does not match');
+        truthly = false;
+    }
+    return truthly;
+}
+
+function emailValidation() {
+    var truthly = false;
+    const $email = $('#email');
+    if ($email.val().length >= 5) {
+        truthly = true;
+    }
+    return truthly;
+}
+
+function disableRegisterButton() {
+    $('#register').attr('disabled', '1');
+}
+function enableRegisterButton() {
+    $('#register').removeAttr('disabled');
+}
+
+function registerButtonAllowed() {
+    var forename = isForenamePresent();
+    var surname = isSurnamePresent();
+    var emailAddress = emailValidation();
+    var userName = isUserNamePresent();
+    var passwordValidated = passwordValidation();
+
+    if (forename === true && surname === true && emailAddress === true && userName === true && passwordValidated === true) {
+        enableRegisterButton();
+        console.log(
+            $('#forename').val(),
+            $('#surname').val(),
+            $('#email').val(),
+            $('#username').val(),
+            $('#password').val())
+    } else {
+        disableRegisterButton();
     }
 }
-const $register = $('#register')
+
+const $register = $('#register');
 $(() => {
     if ($register.length > 0) {
-        $('#password-confirm').on('input', clientPasswordValidation());
-        $('#password').on('input', clientPasswordValidation());
+        const $registrationForm = $('.user-registration-form');
+        $registrationForm.keyup(() => registerButtonAllowed())
     }
 })
