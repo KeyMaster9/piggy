@@ -3,18 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var bodyParser = require('body-parser');
 
-// //sets up body parser
-// app.use(bodyParser.json());       // to support JSON-encoded bodies
-// app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-//   extended: true
-// }));
+// Setup serialize for developemnt only
+require('../bin/sync');
 
-//defines routes
 const routes = require('./routes.js');
-
-var app = express();
+var app = express(); 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

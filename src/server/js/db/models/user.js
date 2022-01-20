@@ -1,14 +1,15 @@
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
+const sequelize = require('../sequelize');
 
 //starts the user database:
-class User extends Sequelize.Model {}
+class User extends Sequelize.Model { }
 User.init({
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    username: {
+    userName: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
@@ -17,7 +18,7 @@ User.init({
                 msg: 'Please provide a value for "Username"',
             },
         },
-        
+
     },
     password: {
         type: Sequelize.STRING,
@@ -58,6 +59,7 @@ User.init({
     },
     tosSigned: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
         allowNull: false,
         validate: {
             notEmpty: {
@@ -66,31 +68,38 @@ User.init({
         },
     },
     tosVersionSigned: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+        type: Sequelize.STRING,
+        allowNull: true,
         validate: {
             notEmpty: true,
         },
     },
     tosDateSigned: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
         validate: {
             notEmpty: true,
         },
     },
     primaryDataOwned: {
-        type: Sequelize.ARRAY,
+        type: Sequelize.JSON,
+        defaultValue: {},
         allowNull: true,
         validate: {
             notEmpty: false,
         },
     },
     secondaryDataOwned: {
-        type: Sequelize.ARRAY,
+        type: Sequelize.JSON,
+        defaultValue: {},
         allowNull: true,
         validate: {
             notEmpty: false,
         },
     },
-}, { sequelize });
+}, {
+    sequelize,
+    modelName: 'User'
+});
+
+module.exports = User;

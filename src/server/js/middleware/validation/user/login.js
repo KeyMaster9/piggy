@@ -1,9 +1,6 @@
 const { body } = require('express-validator');
 
 module.exports = [
-    body("forename").isLength({ min: 1, max: 40 }).isAlpha(),
-    body("surname").isLength({ min: 1, max: 80 }).isAlpha(),
-    body("email").isEmail(),
     body("userName").isLength({ min: 6, max: 25 }),
     body("password").isStrongPassword({
         minLength: 8,

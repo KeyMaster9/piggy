@@ -1,1 +1,2 @@
-import register from './register';
+import registerButton from './registerButton';
+import loginButton from './loginButton';

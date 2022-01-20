@@ -1,6 +1,4 @@
 import $ from 'jquery';
-import axios from 'axios';
-
 
 function isForenamePresent() {
     var truthly = false;
