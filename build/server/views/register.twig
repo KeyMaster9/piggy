@@ -1,56 +1,29 @@
 {% extends 'layout.twig' %}
 
 {% block content %}
+	<div id="user-account-form-flex">
+		<div id="user-account-form-container">
+			<form action="/register" method="POST">
+				<div class="user-registration-form">
+					<h1>Register</h1>
+					<p class="form-subtext">Please fill in this form to create an account.</p>
+					<input class="form-input" type="text" placeholder="Forename" name="forename" id="forename" required><Br>
+					<input class="form-input" type="text" placeholder="Surname" name="surname" id="surname" required><br>
+					<input class="form-input" type="email" placeholder="Email Address" name="email" id="email" required><Br>
+					<input class="form-input" type="text" placeholder="Username" name="userName" id="userName" required><br>
+					<input class="form-input" type="password" placeholder="Password" name="password" id="password" required><br>
+					<input class="form-input" type="password" placeholder="Repeat Password" name="password-confirm" id="password-confirm" required>
+					<p class="form-subtext">By creating an account you agree to our
+						<a href="#">Terms of Service</a>.</p>
+					<button class="form-submit" id="register" type="submit" class="register-btn" disabled>Register</button>
+				</div>
+				<div class="container signin">
+					<p class="form-subtext">Already have an account?
+						<a href="/login">Sign in</a>.</p>
+				</div>
+			</form>
 
-	<div id="user-registration-form-conatiner">
-		<form action="/register" method="POST">
-			<div class="user-registration-form">
-				<h1>Register</h1>
-				<p>Please fill in this form to create an account.</p>
-				<hr>
-
-				<label for="forename">
-					<b>Forename</b>
-				</label>
-				<input type="text" placeholder="Please Enter Your Forename!" name="forename" id="forename" required>
-
-				<label for="surname">
-					<b>Surname</b>
-				</label>
-				<input type="text" placeholder="Please Enter Your Surname!" name="surname" id="surname" required>
-
-				<label for="email">
-					<b>Email Address</b>
-				</label>
-				<input type="email" placeholder="Please Enter Your Email Address!" name="email" id="email" required>
-
-				<label for="username">
-					<b>Username</b>
-				</label>
-				<input type="text" placeholder="Please Enter A Username!" name="userName" id="userName" required>
-
-				<label for="password">
-					<b>Password</b>
-				</label>
-				<input type="password" placeholder="Please Pick a Password!" name="password" id="password" required>
-
-				<label for="password-confirm">
-					<b>Confirm Password</b>
-				</label>
-				<input type="password" placeholder="Please Repeat Your Password!" name="password-confirm" id="password-confirm" required>
-				<hr>
-
-				<p>By creating an account you agree to our
-					<a href="#">Terms of Service</a>.</p>
-				<button id="register" type="submit" class="register-btn" disabled>Register</button>
-			</div>
-
-			<div class="container signin">
-				<p>Already have an account?
-					<a href="/login">Sign in</a>.</p>
-			</div>
-		</form>
-
+		</div>
 	</div>
 
 {% endblock %}

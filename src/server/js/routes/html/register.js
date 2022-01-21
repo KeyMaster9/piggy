@@ -36,11 +36,10 @@ module.exports = (req, res, next) => {
                 })
                 .then(() => User.create({ userName: val.userName, password: hash, forename: val.forename, surname: val.surname, emailAddress: val.email, tosSigned: true, tosDateSigned: dateTime }))
                 .then(user => {
-                    res.send('DONE');
+                    res.redirect('/login');
                     // render done template
                 })
                 .catch(e => {
-                    console.log(e.message);
                     if (e instanceof InvalidUserError) {
                         // render error (e.message)
                         res.send(e.message);

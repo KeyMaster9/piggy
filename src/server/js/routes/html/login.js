@@ -16,7 +16,6 @@ const getUser = (req) => {
                 })
                 .then(() => user);
         })
-
 }
 
 function InvalidCredentials() { };
