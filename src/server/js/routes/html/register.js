@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-const User = require('../../db/models/user')
+const sequelize = require('../../db/sequelize');
+const User = sequelize.models.User
 
 const encryptPassword = (password, saltRounds = 10) => bcrypt.hash(password, saltRounds);
 
@@ -31,13 +32,16 @@ module.exports = (req, res, next) => {
                 .then(() => User.findOne({ where: { userName: req.body.userName } }))
                 .then((user) => {
                     if (user) {
-                        throw new InvalidUserError('User with username already exists');
+                        throw new InvalidUserError('Username already in use!');
                     }
                 })
                 .then(() => User.create({ userName: val.userName, password: hash, forename: val.forename, surname: val.surname, emailAddress: val.email, tosSigned: true, tosDateSigned: dateTime }))
                 .then(user => {
-                    res.redirect('/login');
-                    // render done template
+                    return user.createSession({ secret: randomStringGenerator(40) })
+                        .then(session => {
+                            res.cookie('session', session.secret);
+                            res.redirect('/');
+                        })
                 })
                 .catch(e => {
                     if (e instanceof InvalidUserError) {

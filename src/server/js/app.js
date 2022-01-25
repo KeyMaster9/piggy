@@ -4,9 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-// Setup serialize for developemnt only
-require('../bin/sync');
-
 const routes = require('./routes.js');
 var app = express(); 
 

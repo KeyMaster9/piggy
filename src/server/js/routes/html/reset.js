@@ -1,11 +1,9 @@
 const sequelize = require('../../db/sequelize');
 const User = sequelize.models.User;
-const randomStringGenerator = require('../../helpers/randomString');
-
-function InvalidCredentials() { };
+const randomStringGenerator = require('../../helpers/randomString');function InvalidCredentials() { };
 
 const getUser = (req) => {
-    return User.findOne({ where: { userName: req.body.userName } })
+    return User.findOne({ where: { emailAddress: req.body.email } })
         .then((user) => {
             if (!user) {
                 throw new InvalidCredentials();
@@ -25,12 +23,7 @@ const getUser = (req) => {
 module.exports = (req, res, next) => {
     getUser(req)
         .then((user) => {
-            //const session = user.createSession();
-            return user.createSession({ secret: randomStringGenerator(40) })
-                .then(session => {
-                    res.cookie('session', session.secret);
-                    res.redirect('/');
-                })
+            
         })
         .catch(e => {
             if (e instanceof InvalidCredentials) {

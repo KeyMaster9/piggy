@@ -36,6 +36,7 @@ body background-color {
   }
 
   .form-input {
+    transition: transform 0.2s;
     height: 1.5rem;
     width: 70%;
     border-radius: 1.5rem;
@@ -45,6 +46,7 @@ body background-color {
 
   .form-input:focus {
     border: 2px solid #ccc;
+    transform: scale(1.1);
   }
 
   .form-submit {
@@ -54,11 +56,24 @@ body background-color {
     color: white;
     background-color: #09c091;
     border: 2px solid #09c091;
+    transition: transform 0.2s;
   }
 
   .form-submit:disabled {
     background-color: #9fe2bf;
     border: 2px solid #9fe2bf;
+  }
+
+  .form-submit:disabled:hover {
+    transform: scale(1);
+  }
+
+  .form-submit:hover {
+    transform: scale(1.1);
+  }
+
+  .form-submit:focus {
+    transform: scale(1.1);
   }
 }
 @media (min-width: 768px) {
