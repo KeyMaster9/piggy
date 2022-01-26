@@ -41,7 +41,7 @@ function loginButtonAllowed() {
 const $loginBtn = $('#login-btn');
 $(() => {
     if ($loginBtn.length > 0) {
-        const $registrationForm = $('.user-login-form');
+        const $registrationForm = $('#user-login-form');
         $registrationForm.keyup(() => loginButtonAllowed())
     }
 })

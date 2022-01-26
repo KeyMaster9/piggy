@@ -80,7 +80,7 @@ function registerButtonAllowed() {
 const $register = $('#register');
 $(() => {
     if ($register.length > 0) {
-        const $registrationForm = $('.user-registration-form');
+        const $registrationForm = $('#user-registration-form');
         $registrationForm.keyup(() => registerButtonAllowed())
     }
 })

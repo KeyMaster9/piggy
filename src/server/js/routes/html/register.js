@@ -40,7 +40,7 @@ module.exports = (req, res, next) => {
                     return user.createSession({ secret: randomStringGenerator(40) })
                         .then(session => {
                             res.cookie('session', session.secret);
-                            res.redirect('/');
+                            res.redirect('/dashboard');
                         })
                 })
                 .catch(e => {

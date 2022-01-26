@@ -8,7 +8,7 @@
     "start:prod": "NODE_ENV=production node build/server/app.js"
   },
   "nodemonConfig": {
-    "ext": "js,mjs,json,twig"
+    "ext": "js,mjs,json,twig,scss,css"
   },
   "dependencies": {
     "axios": "^0.24.0",

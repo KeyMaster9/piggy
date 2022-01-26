@@ -4,7 +4,7 @@
 	<div id="user-account-form-flex">
 		<div id="user-account-form-container">
 			<form action="/Login" method="POST">
-				<div class="user-login-form">
+				<div class="user-account-form" id="user-login-form">
 					<h1 class="form-title">Login</h1>
 					<p class="form-subtext">Please fill in this form to login to your account.</p>
 					<input class="form-input" type="text" placeholder="Please Enter Your Username!" name="userName" id="userName" required>
@@ -12,14 +12,14 @@
 					<input class="form-input" type="password" placeholder="Password" name="password" id="password" required>
 					<br>
 					<button class="form-submit" id="login-btn" type="submit" class="login-btn" disabled>Login</button>
-				</div>
-				<div class="container register form-subtext">
-					<p>Forgot Password? 
+					<br>
+					<p class="form-subtext">Forgot Password?
 						<a href="/reset_password">Reset Password</a>.</p>
-					<p>Don't have an account?
+					<p class="form-subtext">Don't have an account?
 						<a href="/register">Register</a>.</p>
 				</div>
-			</form>
-		</div>
-	</div>
-{% endblock %}
+
+			</div>
+		</form>
+	</div> 
+</div>{% endblock %}

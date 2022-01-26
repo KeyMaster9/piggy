@@ -34,7 +34,7 @@ function enableRegisterButton() {
     $('#reset-btn').removeAttr('disabled');
 }
 
-function registerButtonAllowed() {
+function resetButtonAllowed() {
     var emailAddress = emailValidation();
     var passwordValidated = passwordValidation();
 
@@ -48,7 +48,7 @@ function registerButtonAllowed() {
 // const $reset = $('#reset-btn');
 // $(() => {
 //     if ($reset.length > 0) {
-//         const $resetForm = $('.user-reset-form');
+//         const $resetForm = $('#user-reset-form');
 //         $resetForm.keyup(() => registerButtonAllowed())
 //     }
 // })
