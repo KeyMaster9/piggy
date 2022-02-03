@@ -229,6 +229,7 @@ body background-color {
     border-radius: 1.5rem;
     text-align: center;
     border: 2px solid #ccc;
+    font-size: 1rem !important;
   }
 
   .form-input:focus {
@@ -244,6 +245,7 @@ body background-color {
     background-color: #09c091;
     border: 2px solid #09c091;
     transition: transform 0.2s;
+    font-size: 1rem;
   }
 
   .form-submit:disabled {
