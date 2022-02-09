@@ -1,8 +1,8 @@
 const { body } = require('express-validator');
 
 module.exports = [
-    body("userName").isLength({ min: 6, max: 25 }),
-    body("password").isStrongPassword({
+    body('userName').isLength({ min: 6, max: 25 }),
+    body('password').isStrongPassword({
         minLength: 8,
         minLowercase: 1,
         minUppercase: 1,
@@ -15,5 +15,5 @@ module.exports = [
         pointsForContainingUpper: 10,
         pointsForContainingNumber: 10,
         pointsForContainingSymbol: 10,
-    })
+    }),
 ];

@@ -1,4 +1,4 @@
-module.exports = function nameCaser(name) {
-    var casedName = name.toLowerCase();
+module.exports = function nameCaser(v) {
+    const casedName = v.toLowerCase();
     return casedName[0].toUpperCase();
-}
+};

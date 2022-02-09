@@ -4,8 +4,7 @@ function passwordValidation() {
     const $pass = $('#old-password').val();
     const $pass2 = $('#new-password').val();
     const $pass3 = $('#new-password-confirm').val();
-    console.log($pass, $pass2, $pass3);
-    var truthly = false;
+    let truthly = false;
     if ($pass.length >= 8 && $pass2.length >= 8 && $pass3.length >= 8) {
         if ($pass2 === $pass3) {
             truthly = true;
@@ -19,7 +18,7 @@ function passwordValidation() {
 }
 
 function emailValidation() {
-    var truthly = false;
+    let truthly = false;
     const $email = $('#email');
     if ($email.val().length >= 5) {
         truthly = true;
@@ -35,8 +34,8 @@ function enableRegisterButton() {
 }
 
 function resetButtonAllowed() {
-    var emailAddress = emailValidation();
-    var passwordValidated = passwordValidation();
+    const emailAddress = emailValidation();
+    const passwordValidated = passwordValidation();
 
     if (emailAddress === true && passwordValidated === true) {
         enableRegisterButton();
@@ -45,10 +44,10 @@ function resetButtonAllowed() {
     }
 }
 
-// const $reset = $('#reset-btn');
-// $(() => {
-//     if ($reset.length > 0) {
-//         const $resetForm = $('#user-reset-form');
-//         $resetForm.keyup(() => registerButtonAllowed())
-//     }
-// })
+const $reset = $('#reset-btn');
+$(() => {
+    if ($reset.length > 0) {
+        const $resetForm = $('#user-reset-form');
+        $resetForm.keyup(() => resetButtonAllowed());
+    }
+});

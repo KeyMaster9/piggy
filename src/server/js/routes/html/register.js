@@ -1,26 +1,24 @@
-const bcrypt = require('bcrypt');
 const sequelize = require('../../db/sequelize');
-const User = sequelize.models.User
 
-const encryptPassword = (password, saltRounds = 10) => bcrypt.hash(password, saltRounds);
+const { User } = sequelize.models;
 
-function getCurrentTOS() {
-    const currentTOS = "1.0.0";
-    return currentTOS;
-}
+const encryptPassword = require('../../helpers/encryptPassword');
+const randomStringGenerator = require('../../helpers/randomString');
+// function getCurrentTOS() {
+//     const currentTOS = "1.0.0";
+//     return currentTOS;
+// }
 
-
-const InvalidUserError = function (message) {
+const InvalidUserError = (message) => {
     this.message = message;
-}
+};
 
 module.exports = (req, res, next) => {
-    var currentDate = new Date();
-    var dateTime = currentDate.getDate()
+    const currentDate = new Date();
+    const dateTime = currentDate.getDate();
 
     encryptPassword(req.body.password)
         .then((hash) => {
-
             const val = req.body;
 
             return User.findOne({ where: { emailAddress: req.body.email } })
@@ -35,15 +33,21 @@ module.exports = (req, res, next) => {
                         throw new InvalidUserError('Username already in use!');
                     }
                 })
-                .then(() => User.create({ userName: val.userName, password: hash, forename: val.forename, surname: val.surname, emailAddress: val.email, tosSigned: true, tosDateSigned: dateTime }))
-                .then(user => {
-                    return user.createSession({ secret: randomStringGenerator(40) })
-                        .then(session => {
-                            res.cookie('session', session.secret);
-                            res.redirect('/dashboard');
-                        })
-                })
-                .catch(e => {
+                .then(() => User.create({
+                    userName: val.userName,
+                    password: hash,
+                    forename: val.forename,
+                    surname: val.surname,
+                    emailAddress: val.email,
+                    tosSigned: true,
+                    tosDateSigned: dateTime,
+                }))
+                .then((user) => user.createSession({ secret: randomStringGenerator(40) })
+                    .then((session) => {
+                        res.cookie('session', session.secret);
+                        res.redirect('/dashboard');
+                    }))
+                .catch((e) => {
                     if (e instanceof InvalidUserError) {
                         // render error (e.message)
                         res.send(e.message);
@@ -51,7 +55,7 @@ module.exports = (req, res, next) => {
                         res.send('SOMETHING WENT WRONG');
                         /// render internal server error
                     }
-
-                })
+                });
         });
+    next();
 };

@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+
+const router = express.Router();
 
 const AuthenticationMiddleware = require('../middleware/authentication');
 
@@ -16,31 +17,32 @@ const loginHandler = require('./html/login');
 // const validationResetMiddleware = require('../middleware/validation/user/reset');
 // const resetHandler = require('./html/reset');
 
-
 /* GET home page. */
 router.get('/', [
     AuthenticationMiddleware,
-    function (req, res, next) {
-        res.render('index', { title: 'Hello ' + res.locals.session.User.forename + '!' });
-    }
+    function renderIndex(req, res, next) {
+        res.render('index', { title: `Hello ${res.locals.session.User.forename}!` });
+        next();
+    },
 ]);
-
 
 /* GET home page. */
 router.get('/logout', [
     AuthenticationMiddleware,
-    function (req, res, next) {
-        res.cookie("session");
+    function setCookie(req, res, next) {
+        res.cookie('session');
         res.redirect('/');
-    }
+        next();
+    },
 ]);
 
-//GET login page
-router.get('/login', function (req, res) {
+// GET login page
+router.get('/login', (req, res) => {
     res.render('login', { title: 'Login' });
 });
+
 router.post(
-    "/login",
+    '/login',
     [
         sanitiseLoginMiddleware,
         validationLoginMiddleware,
@@ -49,14 +51,13 @@ router.post(
     ],
 );
 
-
-//GET register page
-router.get('/register', function (req, res) {
+// GET register page
+router.get('/register', (req, res) => {
     res.render('register', { title: 'Register' });
 });
 
 router.post(
-    "/register",
+    '/register',
     [
         sanitiseRegisterMiddleware,
         validationRegisterMiddleware,
@@ -65,8 +66,7 @@ router.post(
     ],
 );
 
-
-router.get('/reset_password', function (req, res) {
+router.get('/reset_password', (req, res) => {
     res.render('reset_password', { title: 'Reset Password' });
 });
 
@@ -77,11 +77,8 @@ router.get('/reset_password', function (req, res) {
 //     resetHandler,
 // ])
 
-
-router.get('/dashboard', function (req, res) {
+router.get('/dashboard', (req, res) => {
     res.render('dashboard', { title: 'Dashboard!' });
 });
-
-
 
 module.exports = router;

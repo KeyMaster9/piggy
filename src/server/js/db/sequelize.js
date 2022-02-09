@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize');
-const randomStringGenerator = require('../helpers/randomString');
 const bcrypt = require('bcrypt');
+const randomStringGenerator = require('../helpers/randomString');
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: 'db/database.sqlite'
+    storage: 'db/database.sqlite',
 });
 
 const Session = sequelize.define('Session', {
@@ -28,9 +28,8 @@ const Session = sequelize.define('Session', {
         beforeCreate(session) {
             session.secret = randomStringGenerator(40);
         },
-    }
+    },
 });
-
 
 const User = sequelize.define('User', {
     id: {
@@ -128,12 +127,9 @@ const User = sequelize.define('User', {
     },
 });
 
-User.prototype.validatePassword = function (vaidate) {
-    return bcrypt.compare(vaidate, this.password);
-}
+User.prototype.validatePassword = (vaidate) => bcrypt.compare(vaidate, this.password);
 
 Session.belongsTo(User);
 User.hasMany(Session);
-
 
 module.exports = sequelize;

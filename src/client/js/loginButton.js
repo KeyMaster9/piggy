@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 function isUserNamePresent() {
-    var truthly = false;
+    let truthly = false;
     const $userName = $('#userName');
     if ($userName.val().length >= 6) {
         truthly = true;
@@ -11,7 +11,7 @@ function isUserNamePresent() {
 
 function isPasswordPresent() {
     const $pass = $('#password').val();
-    var truthly = false;
+    let truthly = false;
     if ($pass.length >= 8) {
         truthly = true;
     } else {
@@ -28,8 +28,8 @@ function enableRegisterButton() {
 }
 
 function loginButtonAllowed() {
-    var userName = isUserNamePresent();
-    var passwordValidated = isPasswordPresent();
+    const userName = isUserNamePresent();
+    const passwordValidated = isPasswordPresent();
 
     if (userName === true && passwordValidated === true) {
         enableRegisterButton();
@@ -42,6 +42,6 @@ const $loginBtn = $('#login-btn');
 $(() => {
     if ($loginBtn.length > 0) {
         const $registrationForm = $('#user-login-form');
-        $registrationForm.keyup(() => loginButtonAllowed())
+        $registrationForm.keyup(() => loginButtonAllowed());
     }
-})
+});
